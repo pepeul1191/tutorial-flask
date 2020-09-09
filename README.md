@@ -28,6 +28,13 @@ Activar el ambiente virtual:
 Instalar las dependencias:
 
     $ pip install -r requirements.txt
+  
+Arrancar aplicación:
+
+    # Sin logs ni reload
+    $ gunicorn app:APP -w 6 -b 0.0.0.0:3000
+    # Con logs y reload
+    $ gunicorn app:APP -w 6 -b 0.0.0.0:3000 --reload --access-logfile -
 
 ---
 
@@ -35,3 +42,5 @@ Fuentes:
 
 + https://github.com/pepeul1191/flask-boilerplate-v3
 + https://programwithus.com/learn-to-code/Pip-and-virtualenv-on-Windows/
++ https://git-scm.com/book/en/v2/Git-Basics-Tagging
++ https://flask.palletsprojects.com/en/1.1.x/
