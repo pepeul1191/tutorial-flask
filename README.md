@@ -7,11 +7,11 @@ Requisitos de software previamente instalado:
 
 ## Pasos para ejecutar la aplicación
 
-Instalar virtualenv en el sistema:
+Instalar virtualenv en el sistema (Linux y/o Windows):
 
     $ sudo pip install virtualenv
 
-Crear ambiente virtual en el proyecto:
+Crear ambiente virtual en el proyecto (Linux y/o Windows):
 
     $ virtualenv -p python3 env
 
@@ -23,12 +23,9 @@ Activar el ambiente virtual:
 
 <b>Windows</b>
     
-    $ <<nombre_ambiente>>
-    $ cd <<nombre_ambiente>>
-    $ source bin/activate
+    $ \env\Scripts\activate.bat
 
 Instalar las dependencias:
-
 
     $ pip install -r requirements.txt
 
@@ -37,3 +34,4 @@ Instalar las dependencias:
 Fuentes:
 
 + https://github.com/pepeul1191/flask-boilerplate-v3
++ https://programwithus.com/learn-to-code/Pip-and-virtualenv-on-Windows/
