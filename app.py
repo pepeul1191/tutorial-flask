@@ -1,5 +1,10 @@
 from flask import Flask
-APP = Flask(__name__)
+
+APP = Flask(
+  __name__,
+  static_folder='static',
+  static_url_path='/',
+)
 
 @APP.route('/')
 def home():
