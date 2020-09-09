@@ -44,3 +44,4 @@ Fuentes:
 + https://programwithus.com/learn-to-code/Pip-and-virtualenv-on-Windows/
 + https://git-scm.com/book/en/v2/Git-Basics-Tagging
 + https://flask.palletsprojects.com/en/1.1.x/
++ https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application
