@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 APP = Flask(
     __name__,
     static_folder='static',
     static_url_path='/',
+    template_folder='templates', 
 )
 
 @APP.route('/')
@@ -24,6 +25,10 @@ def demo_query():
     age = int(request.args.get('age'))
     print('query parameter -> nombre : %s, edad : %d' % (name, age))
     return 'query parameter -> nombre : %s, edad : %d' % (name, age), 200
+
+@APP.route('/home')
+def home_view():
+    return render_template('demo.html'), 200
 
 @APP.route('/demo_post', methods=['POST'])
 def demo_post():
