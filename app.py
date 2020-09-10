@@ -28,7 +28,24 @@ def demo_query():
 
 @APP.route('/home')
 def home_view():
-    return render_template('demo.html'), 200
+    locals = {
+        'nombre': 'Pepe',
+        'edad': 32,
+        'bicicletas': [
+            {
+                'img': 'ticla01',
+                'alt': 'K036',
+            },
+            {
+                'img': 'ticla02',
+                'alt': 'Tempo01',
+            },
+        ],
+    }
+    return render_template(
+        'demo.html', 
+        locals=locals,
+    ), 200
 
 @APP.route('/demo_post', methods=['POST'])
 def demo_post():
