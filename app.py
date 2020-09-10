@@ -31,6 +31,7 @@ def home_view():
     locals = {
         'nombre': 'Pepe',
         'edad': 32,
+        'title': 'Home 1',
         'bicicletas': [
             {
                 'img': 'ticla01',
@@ -44,6 +45,16 @@ def home_view():
     }
     return render_template(
         'demo.html', 
+        locals=locals,
+    ), 200
+
+@APP.route('/home2')
+def home_view2():
+    locals = {
+        'mascota': 'Sila',
+    }
+    return render_template(
+        'demo2.html', 
         locals=locals,
     ), 200
 

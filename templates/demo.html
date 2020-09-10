@@ -1,23 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hello, world!</title>
-    <link rel="stylesheet" href="assets/css/demo.css">
-  </head>
-  <body>
-    <h1>hola desde demo.html</h1>
-    nombre : {{locals['nombre']}} <br>
-    nombre : {{locals['edad']}} <br>
-    {% if (locals['edad'] >= 18) %}
-      <b>Es mayor de edad</b>
-    {% else %}  
-      <b>Es menor de edad</b>
-    {% endif %}
-    {% for ticla in locals['bicicletas'] %}
-      <img src="assets/img/{{ticla['img']}}.png" alt="{{ticla['alt']}}" width="315" height="213"> 
-    {% endfor %}
-    <script src="assets/js/demo.js"></script> 
-  </body>
-</html>
+{% extends 'layouts/blank.html' %}
+{% block content %}
+  <h1>hola desde demo.html</h1>
+  nombre : {{locals['nombre']}} <br>
+  nombre : {{locals['edad']}} <br>
+  {% if (locals['edad'] >= 18) %}
+    <b>Es mayor de edad</b>
+  {% else %}  
+    <b>Es menor de edad</b>
+  {% endif %}
+  {% for ticla in locals['bicicletas'] %}
+    <img src="assets/img/{{ticla['img']}}.png" alt="{{ticla['alt']}}" width="315" height="213"> 
+  {% endfor %}
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="assets/css/demo.css">
+{% endblock %}
+
+{% block js %}
+  <script src="assets/js/demo.js"></script> 
+{% endblock %}
