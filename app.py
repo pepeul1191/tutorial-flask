@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template, session, redirect
 from datetime import datetime
 
 APP = Flask(
@@ -90,7 +90,8 @@ def login_access():
         session['user'] = 'root'
         session['time'] = datetime.now()
         print(session)
-        return render_template('home.html'), 200
+        # return render_template('home.html'), 200
+        return redirect('/')
     else:
         locals = {
             'message': 'Usuario y contraseña no coinciden',
@@ -106,10 +107,7 @@ def logout():
     locals = {
         'message': '',
     }
-    return render_template(
-        'login.html',
-        locals=locals
-    ), 200
+    return redirect('/')
 
 if __name__ == '__main__':
     APP.run(

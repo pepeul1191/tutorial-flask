@@ -6,4 +6,6 @@
   Hora de Acceso: <b>{{session['time']}}</b>
   <br>
   <a href="/logout">Cerrar Sesión</a>
+{% else %}  
+  <a href="/login">Ingresar</a>
 {% endif %}
