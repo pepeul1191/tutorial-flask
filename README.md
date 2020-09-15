@@ -46,3 +46,4 @@ Fuentes:
 + https://flask.palletsprojects.com/en/1.1.x/
 + https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application
 + https://flask.palletsprojects.com/en/1.1.x/quickstart/
++ https://stackoverflow.com/questions/27747578/how-do-i-clear-a-flask-session

@@ -100,6 +100,17 @@ def login_access():
             locals=locals
         ), 500
 
+@APP.route('/logout', methods=['GET'])
+def logout():
+    session.clear()
+    locals = {
+        'message': '',
+    }
+    return render_template(
+        'login.html',
+        locals=locals
+    ), 200
+
 if __name__ == '__main__':
     APP.run(
         debug=True, 
