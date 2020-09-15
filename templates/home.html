@@ -1,0 +1,7 @@
+<h1>home</h1>
+
+{% if (session['status'] == 'active') %}
+  Usuario Logeado: <b>{{session['user']}}</b>
+  <br>
+  Hora de Acceso: <b>{{session['time']}}</b>
+{% endif %}

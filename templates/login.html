@@ -1,0 +1,10 @@
+<h2>Login</h2>
+
+<form action="/login" method="post">
+  <label for="user">Usuario</label><br>
+  <input type="text" placeholder="" name="user" required><br>
+  <label for="password">Contraseña</label><br>
+  <input type="password" placeholder="" name="password" required><br>
+  {{locals['message']}} <br><br>
+  <input type="submit" value="Ingresar">
+</form>
