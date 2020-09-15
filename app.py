@@ -4,6 +4,15 @@
 from flask import Flask, request, render_template, session, redirect
 from datetime import datetime
 
+def not_found(e):
+    print(request.url)
+    if request.method == 'GET':
+        return render_template(
+                '404.html', 
+            ), 404
+    else:
+        return 'Recurso no encontrado', 404
+
 APP = Flask(
     __name__,
     static_folder='static',
@@ -13,6 +22,8 @@ APP = Flask(
 
 APP.config['SESSION_TYPE'] = 'filesystem'
 APP.secret_key = 'mysercretkey'
+APP.register_error_handler(404, not_found)
+APP.register_error_handler(405, not_found)
 
 @APP.route('/')
 def home():
