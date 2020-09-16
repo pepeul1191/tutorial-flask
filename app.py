@@ -14,6 +14,12 @@ def not_found(e):
     else:
         return 'Recurso no encontrado', 404
 
+CONSTANTS = {
+    'secret_key': 'mysercretkey',
+    'BASE_URL': 'http://localhost:3000/',
+    'STATIC_URL': 'http://localhost:3000/',
+}
+
 APP = Flask(
     __name__,
     static_folder='static',
@@ -22,7 +28,7 @@ APP = Flask(
 )
 
 APP.config['SESSION_TYPE'] = 'filesystem'
-APP.secret_key = 'mysercretkey'
+APP.secret_key = CONSTANTS['secret_key']
 APP.register_error_handler(404, not_found)
 APP.register_error_handler(405, not_found)
 
