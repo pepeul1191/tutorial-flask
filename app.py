@@ -5,6 +5,41 @@ from flask import Flask, request, render_template, session, redirect
 from functools import wraps
 from datetime import datetime
 
+# application constants
+
+CONSTANTS = {
+    'secret_key': 'mysercretkey',
+    'base_ulr': 'http://localhost:3000/',
+    'static_url': 'http://localhost:3000/',
+}
+
+# helpers
+
+def load_css(csss):
+    rpta = ''
+    if len(csss) > 0:
+        for css in csss:
+            temp = ('<link href="'
+                    + CONSTANTS['static_url']
+                    + css
+                    + '.css" rel="stylesheet"/>')
+            rpta = rpta + temp
+    return rpta
+
+
+def load_js(jss):
+    rpta = ''
+    if len(jss) > 0:
+        for js in jss:
+            temp = ('<script src="'
+                    + CONSTANTS['static_url']
+                    + js
+                    + '.js" type="text/javascript"></script>')
+            rpta = rpta + temp
+    return rpta
+
+# middlewares
+
 def not_found(e):
     print(request.url)
     if request.method == 'GET':
@@ -13,24 +48,6 @@ def not_found(e):
             ), 404
     else:
         return 'Recurso no encontrado', 404
-
-CONSTANTS = {
-    'secret_key': 'mysercretkey',
-    'BASE_URL': 'http://localhost:3000/',
-    'STATIC_URL': 'http://localhost:3000/',
-}
-
-APP = Flask(
-    __name__,
-    static_folder='static',
-    static_url_path='/',
-    template_folder='templates', 
-)
-
-APP.config['SESSION_TYPE'] = 'filesystem'
-APP.secret_key = CONSTANTS['secret_key']
-APP.register_error_handler(404, not_found)
-APP.register_error_handler(405, not_found)
 
 def if_session_not_active_go_login(param):
     def decorator(fn):
@@ -56,6 +73,30 @@ def if_session_active_go_home():
             return fn(*args, **kwargs)
         return wrapper
     return decorator
+
+# application config
+
+APP = Flask(
+    __name__,
+    static_folder='static',
+    static_url_path='/',
+    template_folder='templates', 
+)
+
+APP.config['SESSION_TYPE'] = 'filesystem'
+APP.secret_key = CONSTANTS['secret_key']
+APP.register_error_handler(404, not_found)
+APP.register_error_handler(405, not_found)
+
+# end-points
+
+@APP.context_processor
+def utility_processor():
+    return dict(
+        load_css=load_css,
+        load_js=load_js,
+        constants=CONSTANTS,
+    )
 
 @APP.route('/')
 def home():
@@ -156,11 +197,17 @@ def logout():
 @APP.route('/admin', methods=['GET'])
 @if_session_not_active_go_login(param='pepe')
 def admin():
-    locals = {}
+    locals = {
+        'title': 'Admin Dashboard',
+        'csss': ['assets/css/demo', 'assets/css/demo2'],
+        'jss': ['assets/js/lib', 'assets/js/demo'],
+    }
     return render_template(
         'admin.html',
         locals=locals
     ), 200
+
+# main function
 
 if __name__ == '__main__':
     APP.run(
