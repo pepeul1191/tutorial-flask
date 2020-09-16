@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, request, render_template, session, redirect
+from functools import wraps
 from datetime import datetime
 
 def not_found(e):
@@ -24,6 +25,31 @@ APP.config['SESSION_TYPE'] = 'filesystem'
 APP.secret_key = 'mysercretkey'
 APP.register_error_handler(404, not_found)
 APP.register_error_handler(405, not_found)
+
+def if_session_not_active_go_login(param):
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):         
+            # print(param)
+            if session.get('status') is not None:
+                if session.get('status') != 'active':
+                    return redirect('/login')
+            else:
+                return redirect('/login')
+            return fn(*args, **kwargs)
+        return wrapper
+    return decorator
+
+def if_session_active_go_home():
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            if session.get('status') is not None:
+                if session.get('status') == 'active':
+                    return redirect('/')
+            return fn(*args, **kwargs)
+        return wrapper
+    return decorator
 
 @APP.route('/')
 def home():
@@ -83,6 +109,7 @@ def demo_post():
     return 'post parameter -> nombre : %s, edad : %d' % (name, age), 200
 
 @APP.route('/login', methods=['GET'])
+@if_session_active_go_home()
 def login():
     locals = {
         'message': '',
@@ -119,6 +146,15 @@ def logout():
         'message': '',
     }
     return redirect('/')
+
+@APP.route('/admin', methods=['GET'])
+@if_session_not_active_go_login(param='pepe')
+def admin():
+    locals = {}
+    return render_template(
+        'admin.html',
+        locals=locals
+    ), 200
 
 if __name__ == '__main__':
     APP.run(
