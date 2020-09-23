@@ -36,6 +36,20 @@ Arrancar aplicación:
     # Con logs y reload
     $ gunicorn app:APP -w 6 -b 0.0.0.0:3000 --reload --access-logfile -
 
+## Migraciones
+
+Archivo <b>.env</b>
+
+    DB="sqlite:///db/app.db"
+
+Migraciones con DBMATE - app:
+
+    $ dbmate -d "db/migrations" -e "DB" new <<nombre_de_migracion>>
+    $ dbmate -d "db/migrations" -e "DB" up
+    $ dbmate -d "db/migrations" -e "DB" new <<nombre_de_migracion>>
+    $ dbmate -d "db/migrations" -e "DB" up
+    $ dbmate -d "db/migrations" -e "DB" rollback
+
 ---
 
 Fuentes:

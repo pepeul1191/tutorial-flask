@@ -5,6 +5,10 @@ from flask import Flask, request, render_template, session, redirect
 from functools import wraps
 from datetime import datetime
 
+# database config
+
+# models
+
 # application constants
 
 CONSTANTS = {

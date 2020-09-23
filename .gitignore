@@ -9,5 +9,6 @@ __pycache__
 env
 .vscode
 .env
+*.csv#
 *.log
 logs
