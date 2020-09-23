@@ -44,6 +44,21 @@ CREATE TABLE 'teachers' (
   FOREIGN KEY(`gender_id`) REFERENCES 'genders' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`country_id`) REFERENCES 'countries' ( 'id' ) ON DELETE CASCADE
 );
+CREATE TABLE 'sections' (
+	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  'code'	INTEGER NOT NULL,
+  'course_id'	INTEGER,
+  'teacher_id'	INTEGER,
+  FOREIGN KEY(`course_id`) REFERENCES 'courses' ( 'id' ) ON DELETE CASCADE,
+  FOREIGN KEY(`teacher_id`) REFERENCES 'teachers' ( 'id' ) ON DELETE CASCADE
+);
+CREATE TABLE 'sections_students' (
+	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  'section_id'	INTEGER,
+  'student_id'	INTEGER,
+  FOREIGN KEY(`section_id`) REFERENCES 'sections' ( 'id' ) ON DELETE CASCADE,
+  FOREIGN KEY(`student_id`) REFERENCES 'students' ( 'id' ) ON DELETE CASCADE
+);
 -- Dbmate schema migrations
 INSERT INTO schema_migrations (version) VALUES
   ('20200923124142'),
@@ -54,4 +69,6 @@ INSERT INTO schema_migrations (version) VALUES
   ('20200923125539'),
   ('20200923132228'),
   ('20200923132735'),
-  ('20200923133317');
+  ('20200923133317'),
+  ('20200923223826'),
+  ('20200923223844');
