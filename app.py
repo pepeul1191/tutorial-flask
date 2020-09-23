@@ -1,13 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import json
 from flask import Flask, request, render_template, session, redirect
 from functools import wraps
 from datetime import datetime
+from sqlalchemy import create_engine, Column, Integer, String, select
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 # database config
 
+Base = declarative_base()
+engine = create_engine('sqlite:///db/app.db')
+session_db = sessionmaker()
+session_db.configure(bind=engine)
+
 # models
+
+class Country(Base):
+  __tablename__ = 'countries'
+  id = Column(Integer, primary_key=True)
+  name = Column(String)
 
 # application constants
 
@@ -210,6 +224,23 @@ def admin():
         'admin.html',
         locals=locals
     ), 200
+
+@APP.route('/country/list')
+def country_list():
+    resp = None
+    status = 200
+    try:
+        conn = engine.connect()
+        stmt = select([Country])
+        rs = conn.execute(stmt)
+        resp = [dict(r) for r in conn.execute(stmt)]
+    except Exception as e:
+        resp = [
+            'Se ha producido un error en listar los paises',
+            str(e)
+        ]
+        status = 500
+    return json.dumps(resp), status
 
 # main function
 
