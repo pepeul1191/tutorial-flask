@@ -5,9 +5,7 @@ from flask import Flask, request, render_template, session, redirect
 from main.constants import CONSTANTS
 from main.filters import not_found
 from main.helpers import load_css, load_js
-from access.views import view as access_view
-from access.views2 import view as access_view2
-from admin.views import view as admin_view
+from main.blueprints import register
 
 # create APP
 APP = Flask(
@@ -22,9 +20,7 @@ APP.secret_key = 'mysercretkey'
 APP.register_error_handler(404, not_found)
 APP.register_error_handler(405, not_found)
 # register blueprints
-APP.register_blueprint(access_view)
-APP.register_blueprint(access_view2)
-APP.register_blueprint(admin_view)
+register(APP)
 # load helpers
 @APP.context_processor
 def utility_processor():
@@ -33,3 +29,4 @@ def utility_processor():
         load_js=load_js,
         constants=CONSTANTS,
     )
+
