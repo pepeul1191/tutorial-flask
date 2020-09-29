@@ -50,6 +50,10 @@ Migraciones con DBMATE - app:
     $ dbmate -d "db/migrations" -e "DB" up
     $ dbmate -d "db/migrations" -e "DB" rollback
 
+Backup SQLite
+
+    $ sqlite3 app.db .dump > dbname.bak
+
 ---
 
 Fuentes:
@@ -62,3 +66,4 @@ Fuentes:
 + https://flask.palletsprojects.com/en/1.1.x/quickstart/
 + https://stackoverflow.com/questions/27747578/how-do-i-clear-a-flask-session
 + https://pythonise.com/series/learning-flask/custom-flask-decorators
++ https://www.digitalocean.com/community/questions/how-do-i-dump-an-sqlite-database
