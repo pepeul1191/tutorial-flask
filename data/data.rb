@@ -6,6 +6,7 @@ require 'sqlite3'
 Sequel::Model.plugin :json_serializer
 
 DB = Sequel.connect('sqlite:///home/pepe/Documentos/ULima/2020-II/IngnerieaDeSoftwareII/fpp/db/app.db')
+DB.sql_log_level = :debug
 
 class Student < Sequel::Model(DB[:students])
 
@@ -16,6 +17,14 @@ class Country < Sequel::Model(DB[:countries])
 end
 
 class Teacher < Sequel::Model(DB[:teachers])
+
+end
+
+class Section < Sequel::Model(DB[:sections])
+
+end
+
+class SectionStudent < Sequel::Model(DB[:sections_students])
 
 end
 
@@ -125,5 +134,36 @@ def fill_teachers
   f.close
 end
 
+def fill_sections_students
+  DB.transaction do
+    begin 
+      courses = 3
+      limit = 40
+      total_iteration = (Student.count / 40.0).ceil
+      sections = Section.all.to_a
+      for k in 0..2 do
+        offset = 0
+        for i in 1..total_iteration do
+          students = Student.limit(limit, offset).to_a
+          for student in students do
+            # puts k.to_s + "    " + i.to_s + "   section_id: " + sections[i + k*25 - 1].id.to_s + " student_id:  " + student.id.to_s
+            n = SectionStudent.new(
+              :section_id => sections[i + k*25 - 1].id,
+              :student_id => student.id,
+            )
+            n.save
+          end
+          offset = offset + 40
+        end
+      end
+    rescue Exception => e
+      Sequel::Rollback
+      puts 'error!'
+      puts e.message
+    end
+  end
+end
+
 # fill_students
-fill_teachers
+# fill_teachers
+fill_sections_students
