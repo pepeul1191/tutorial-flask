@@ -164,6 +164,79 @@ def fill_sections_students
   end
 end
 
+def inserts_countries
+  sql = 'INSERT INTO countries (id, name) VALUES '
+  countries = Country.all.to_a
+  count = countries.length
+  k = 0
+  for country in countries do
+    tmp = '(%d, "%s")' % [country.id, country.name]
+    if k + 1 < count
+      sql = sql + tmp + ", \n"
+    else
+      sql = sql + tmp
+    end
+    k = k + 1
+  end
+  puts sql += ';'
+end
+
+def inserts_students
+  sql = 'INSERT INTO students (id, code, names, last_names, email, personal_email, tw_user, tw_pass, ad_user, gender_id, carrer_id, country_id, photo_url) VALUES '
+  students = Student.all.to_a
+  count = students.length
+  k = 0
+  for student in students do
+    tmp = '(%d, %d, "%s", "%s", "%s", "%s", "%s", "%s", "%s", %d, %d, %d, "%s")' % [student.id, student.code, student.names, student.last_names, student.email, student.personal_email, student.tw_user, student.tw_pass, student.ad_user, student.gender_id, student.carrer_id, student.country_id, 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png']
+    if k + 1 < count
+      sql = sql + tmp + ", \n"
+    else
+      sql = sql + tmp
+    end
+    k = k + 1
+  end
+  File.write('/tmp/students.sql', sql += ';')
+end
+
+def inserts_teachers
+  sql = 'INSERT INTO teachers (id, code, names, last_names, email, personal_email, gender_id, country_id, teacher_type_id, photo_url) VALUES '
+  teachers = Teacher.all.to_a
+  count = teachers.length
+  k = 0
+  for teacher in teachers do
+    tmp = '(%d, %d, "%s", "%s", "%s", "%s", %d, %d, %d, "%s")' % [teacher.id, teacher.code, teacher.names, teacher.last_names, teacher.email, teacher.personal_email, teacher.gender_id, teacher.country_id, teacher.teacher_type_id, 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png']
+    if k + 1 < count
+      sql = sql + tmp + ", \n"
+    else
+      sql = sql + tmp
+    end
+    k = k + 1
+  end
+  File.write('/tmp/teachers.sql', sql += ';')
+end
+
+
+def inserts_sections_students
+  sql = 'INSERT INTO sections_students (id, section_id, student_id) VALUES '
+  sections_teachers = SectionStudent.all.to_a
+  count = sections_teachers.length
+  k = 0
+  for section_teacher in sections_teachers do
+    tmp = '(%d, %d, %d)' % [section_teacher.id, section_teacher.section_id, section_teacher.student_id]
+    if k + 1 < count
+      sql = sql + tmp + ", \n"
+    else
+      sql = sql + tmp
+    end
+    k = k + 1
+  end
+  File.write('/tmp/sections_students.sql', sql += ';')
+end
+
 # fill_students
 # fill_teachers
-fill_sections_students
+# fill_sections_students
+# inserts_countries
+# inserts_students
+# inserts_teachers
+# inserts_sections_students

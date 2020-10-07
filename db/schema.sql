@@ -24,6 +24,7 @@ CREATE TABLE 'students' (
   'gender_id'	INTEGER,
   'carrer_id'	INTEGER,
   'country_id'	INTEGER,
+  'photo_url' VARCHAR(100),
   FOREIGN KEY(`gender_id`) REFERENCES 'genders' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`carrer_id`) REFERENCES 'carrers' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`country_id`) REFERENCES 'countries' ( 'id' ) ON DELETE CASCADE
@@ -49,6 +50,7 @@ CREATE TABLE 'teachers' (
   'gender_id'	INTEGER,
   'country_id'	INTEGER,
   'teacher_type_id'	INTEGER,
+  'photo_url' VARCHAR(100),
   FOREIGN KEY(`gender_id`) REFERENCES 'genders' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`country_id`) REFERENCES 'countries' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`teacher_type_id`) REFERENCES 'teacher_types' ( 'id' ) ON DELETE CASCADE
@@ -73,6 +75,13 @@ CREATE TABLE 'sections_students' (
   FOREIGN KEY(`section_id`) REFERENCES 'sections' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`student_id`) REFERENCES 'students' ( 'id' ) ON DELETE CASCADE
 );
+CREATE TABLE 'sections_teachers' (
+	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  'section_id'	INTEGER,
+  'teacher_id'	INTEGER,
+  FOREIGN KEY(`section_id`) REFERENCES 'sections' ( 'id' ) ON DELETE CASCADE,
+  FOREIGN KEY(`teacher_id`) REFERENCES 'teachers' ( 'id' ) ON DELETE CASCADE
+);
 -- Dbmate schema migrations
 INSERT INTO schema_migrations (version) VALUES
   ('20200923124142'),
@@ -90,4 +99,9 @@ INSERT INTO schema_migrations (version) VALUES
   ('20200923223826'),
   ('20200923223844'),
   ('20201002170538'),
-  ('20201002170951');
+  ('20201002170951'),
+  ('20201007210901'),
+  ('20201007212424'),
+  ('20201007212444'),
+  ('20201007212455'),
+  ('20201007212516');

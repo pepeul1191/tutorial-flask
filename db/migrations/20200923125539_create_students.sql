@@ -13,6 +13,7 @@ CREATE TABLE 'students' (
   'gender_id'	INTEGER,
   'carrer_id'	INTEGER,
   'country_id'	INTEGER,
+  'photo_url' VARCHAR(100),
   FOREIGN KEY(`gender_id`) REFERENCES 'genders' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`carrer_id`) REFERENCES 'carrers' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`country_id`) REFERENCES 'countries' ( 'id' ) ON DELETE CASCADE
