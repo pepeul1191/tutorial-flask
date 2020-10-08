@@ -28,6 +28,10 @@ class SectionStudent < Sequel::Model(DB[:sections_students])
 
 end
 
+class SectionTeacher < Sequel::Model(DB[:sections_teachers])
+
+end
+
 def tw_user
   rand(1..10).to_s + ' ' + rand(101..999).to_s + ' ' + rand(101..999).to_s + ' ' + rand(101..999).to_s
 end
@@ -233,6 +237,37 @@ def inserts_sections_students
   File.write('/tmp/sections_students.sql', sql += ';')
 end
 
+def inserts_sections_teachers
+  sql = 'INSERT INTO sections_teachers (id, section_id, teacher_id) VALUES '
+  sections = Section.all.to_a
+  count = sections.length
+  teachers = Teacher.where(:teacher_type_id => 1).to_a
+  jps = Teacher.where(:teacher_type_id => 2).to_a
+  k = 0
+  id = 1
+  for section in sections do
+    tmp = ''
+    if section.course_id == 1
+      # con jp
+      pos_jp = rand(0..jps.length - 1)
+      pos_teacher = rand(0..teachers.length - 1)
+      tmp = '(%d, %d, %d), ' % [id, section.id, teachers[pos_teacher].id] 
+      tmp = tmp + '(%d, %d, %d)' % [id, section.id, jps[pos_jp].id]
+    else
+      pos_teacher = rand(0..teachers.length - 1)
+      tmp = '(%d, %d, %d)' % [id, section.id, teachers[pos_teacher].id] 
+      # sin jp
+    end
+    if k + 1 < count
+      sql = sql + tmp + ", \n"
+    else
+      sql = sql + tmp
+    end
+    k = k + 1
+  end
+  File.write('/tmp/sections_teachers.sql', sql += ';')
+end
+
 # fill_students
 # fill_teachers
 # fill_sections_students
@@ -240,3 +275,4 @@ end
 # inserts_students
 # inserts_teachers
 # inserts_sections_students
+inserts_sections_teachers
