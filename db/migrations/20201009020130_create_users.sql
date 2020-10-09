@@ -1,8 +1,7 @@
 -- migrate:up
 
 CREATE TABLE 'users' (
-	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	'url_picture'	VARCHAR(150) NOT NULL
+	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
 );
 
 -- migrate:down

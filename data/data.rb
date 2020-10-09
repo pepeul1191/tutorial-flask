@@ -32,6 +32,18 @@ class SectionTeacher < Sequel::Model(DB[:sections_teachers])
 
 end
 
+class User < Sequel::Model(DB[:users])
+
+end
+
+class UserTeacher < Sequel::Model(DB[:users_teachers])
+
+end
+
+class UserStudent < Sequel::Model(DB[:users_students])
+
+end
+
 def tw_user
   rand(1..10).to_s + ' ' + rand(101..999).to_s + ' ' + rand(101..999).to_s + ' ' + rand(101..999).to_s
 end
@@ -268,6 +280,122 @@ def inserts_sections_teachers
   File.write('/tmp/sections_teachers.sql', sql += ';')
 end
 
+def fill_users_users_teachers
+  teachers = Teacher.all.to_a
+  array_teachers = []
+  array_users = []
+  for teacher in teachers do
+    charset = Array('A'..'Z') + Array('a'..'z') + Array('0'..'9')
+    DB.transaction do
+      begin 
+        # create user
+        user = User.new
+        user.save
+        # create user_section
+        n = UserTeacher.new(
+          :user_id => user.id,
+          :teacher_id => teacher.id,
+          :user => teacher.code,
+          :pass => Array.new(6) { charset.sample }.join,
+          :reset_key => Array.new(20) { charset.sample }.join,
+          :activation_key => Array.new(20) { charset.sample }.join,
+        )
+        n.save
+        Array.new(20) { charset.sample }.join
+      rescue Exception => e
+        Sequel::Rollback
+        puts 'error!'
+        puts e.message
+      end
+    end
+  end
+end
+
+def inserts_users_users_teachers
+  sql = 'INSERT INTO users_teachers (id, user_id, teacher_id, user, pass, reset_key, activation_key) VALUES '
+  users = UserTeacher.all.to_a
+  count = users.length
+  k = 0
+  for user in users do
+    tmp = ''
+    tmp = tmp + '(%d, %d, %d, "%s", "%s", "%s", "%s")' % [user.id, user.user_id, user.teacher_id, user.user, user.pass, user.reset_key, user.activation_key]
+    if k + 1 < count
+      sql = sql + tmp + ", \n"
+    else
+      sql = sql + tmp
+    end
+    k = k + 1
+  end
+  File.write('/tmp/users_teachers.sql', sql += ';')
+end
+
+def fill_users_users_students
+  students = Student.all.to_a
+  array_students = []
+  array_users = []
+  for student in students do
+    charset = Array('A'..'Z') + Array('a'..'z') + Array('0'..'9')
+    DB.transaction do
+      begin 
+        # create user
+        user = User.new
+        user.save
+        # create user_section
+        n = UserStudent.new(
+          :user_id => user.id,
+          :student_id => student.id,
+          :user => student.code,
+          :pass => Array.new(6) { charset.sample }.join,
+          :reset_key => Array.new(20) { charset.sample }.join,
+          :activation_key => Array.new(20) { charset.sample }.join,
+        )
+        n.save
+        Array.new(20) { charset.sample }.join
+      rescue Exception => e
+        Sequel::Rollback
+        puts 'error!'
+        puts e.message
+      end
+    end
+  end
+end
+
+def inserts_users_users_students
+  sql = 'INSERT INTO users_students (id, user_id, student_id, user, pass, reset_key, activation_key) VALUES '
+  users = UserStudent.all.to_a
+  count = users.length
+  k = 0
+  for user in users do
+    tmp = ''
+    tmp = tmp + '(%d, %d, %d, "%s", "%s", "%s", "%s")' % [user.id, user.user_id, user.student_id, user.user, user.pass, user.reset_key, user.activation_key]
+    if k + 1 < count
+      sql = sql + tmp + ", \n"
+    else
+      sql = sql + tmp
+    end
+    k = k + 1
+  end
+  File.write('/tmp/users_students.sql', sql += ';')
+end
+
+def inserts_users
+  sql = 'INSERT INTO users (id) VALUES '
+  users = User.all.to_a
+  count = users.length
+  k = 0
+  for user in users do
+    tmp = ''
+    tmp = tmp + '(%d)' % [user.id]
+    if k + 1 < count
+      sql = sql + tmp + ", \n"
+    else
+      sql = sql + tmp
+    end
+    k = k + 1
+  end
+  File.write('/tmp/users.sql', sql += ';')
+end
+
 # fill_students
 # fill_teachers
 # fill_sections_students
@@ -275,4 +403,9 @@ end
 # inserts_students
 # inserts_teachers
 # inserts_sections_students
-inserts_sections_teachers
+# inserts_sections_teachers
+# fill_users_users_teachers
+# inserts_users_users_teachers
+# fill_users_users_students
+# inserts_users_users_students
+inserts_users

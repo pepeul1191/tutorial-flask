@@ -104,13 +104,16 @@ CREATE VIEW vw_sections_courses_teachers_students AS
   JOIN countries CT ON CT.id = TE.country_id
   LIMIT 20000;
 CREATE TABLE 'users' (
-	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	'url_picture'	VARCHAR(150) NOT NULL
+	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT
 );
 CREATE TABLE 'users_students' (
 	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   'user_id'	INTEGER,
   'student_id'	INTEGER,
+  'user'	VARCHAR(45),
+  'pass'	VARCHAR(45),
+  'reset_key'	VARCHAR(45),
+  'activation_key'	VARCHAR(45),
   FOREIGN KEY(`user_id`) REFERENCES 'users' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`student_id`) REFERENCES 'students' ( 'id' ) ON DELETE CASCADE
 );
@@ -118,6 +121,10 @@ CREATE TABLE 'users_teachers' (
 	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   'user_id'	INTEGER,
   'teacher_id'	INTEGER,
+  'user'	VARCHAR(45),
+  'pass'	VARCHAR(45),
+  'reset_key'	VARCHAR(45),
+  'activation_key'	VARCHAR(45),
   FOREIGN KEY(`user_id`) REFERENCES 'users' ( 'id' ) ON DELETE CASCADE,
   FOREIGN KEY(`teacher_id`) REFERENCES 'teachers' ( 'id' ) ON DELETE CASCADE
 );
@@ -148,4 +155,7 @@ INSERT INTO schema_migrations (version) VALUES
   ('20201008011005'),
   ('20201009020130'),
   ('20201009020135'),
-  ('20201009020138');
+  ('20201009020138'),
+  ('20201009205155'),
+  ('20201009205158'),
+  ('20201009211903');
