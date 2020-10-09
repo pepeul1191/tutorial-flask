@@ -103,6 +103,24 @@ CREATE VIEW vw_sections_courses_teachers_students AS
   JOIN genders GT ON GT.id = TE.gender_id
   JOIN countries CT ON CT.id = TE.country_id
   LIMIT 20000;
+CREATE TABLE 'users' (
+	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	'url_picture'	VARCHAR(150) NOT NULL
+);
+CREATE TABLE 'users_students' (
+	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  'user_id'	INTEGER,
+  'student_id'	INTEGER,
+  FOREIGN KEY(`user_id`) REFERENCES 'users' ( 'id' ) ON DELETE CASCADE,
+  FOREIGN KEY(`student_id`) REFERENCES 'students' ( 'id' ) ON DELETE CASCADE
+);
+CREATE TABLE 'users_teachers' (
+	'id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  'user_id'	INTEGER,
+  'teacher_id'	INTEGER,
+  FOREIGN KEY(`user_id`) REFERENCES 'users' ( 'id' ) ON DELETE CASCADE,
+  FOREIGN KEY(`teacher_id`) REFERENCES 'teachers' ( 'id' ) ON DELETE CASCADE
+);
 -- Dbmate schema migrations
 INSERT INTO schema_migrations (version) VALUES
   ('20200923124142'),
@@ -127,4 +145,7 @@ INSERT INTO schema_migrations (version) VALUES
   ('20201007212455'),
   ('20201007212516'),
   ('20201008011003'),
-  ('20201008011005');
+  ('20201008011005'),
+  ('20201009020130'),
+  ('20201009020135'),
+  ('20201009020138');
